@@ -1,8 +1,14 @@
+"""
+    My implementation of web-scraper from site 'http://kamil.kwapisz.pl/category/'
+"""
+
 import requests
 
 import csv
 
 from bs4 import BeautifulSoup
+
+from typing import List, Callable
 
 
 class Connection:
@@ -12,27 +18,28 @@ class Connection:
     def connection_to(self):
         connection = requests.get(self.url)
         return connection
+# TODO add type to connection_to
 
 
 class ParserHtml:
     def __init__(self, connection):
         self.connection = connection
 
-    def find_links(self):
+    def find_links(self) -> List:
         soup = BeautifulSoup(self.connection.text, 'lxml')
         articles = soup.main
         links = articles('a', {'rel': 'bookmark'})
         return links
 
 
-def write_new_links(file, links):
+def write_new_links(file: str, links: List) -> None:
     with open(file, 'a') as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
         for new_link in links:
             writer.writerow([new_link.text, new_link.get('href')])
 
 
-def check_files(file, links):
+def check_files(file: str, links: List) -> None:
     with open(file, 'r') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for link in links:
@@ -40,7 +47,7 @@ def check_files(file, links):
             for row in csv_reader:
                 if row[1] not in link['href']:
                     saved.add(link)
-        write_new_links(file, saved)
+        write_new_links(file, list(saved))
 
 
 if __name__ == '__main__':
