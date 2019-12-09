@@ -41,13 +41,17 @@ def write_new_links(file: str, links: List) -> None:
 
 def check_files(file: str, links: List) -> None:
     with open(file, 'r') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        for link in links:
-            saved = set()
-            for row in csv_reader:
-                if row[1] not in link['href']:
-                    saved.add(link)
-        write_new_links(file, list(saved))
+        reader = csv.reader(csv_file, delimiter=',')
+        new_links = []
+        for row in reader:
+            visited = True
+            for link in links:
+                if row == link:
+                    visited = False
+            if not visited:
+                new_links.append(link)
+        write_new_links(file, new_links)
+
 
 
 if __name__ == '__main__':
@@ -58,6 +62,7 @@ if __name__ == '__main__':
         conn = Connection(url)
         links_of_site = ParserHtml(conn.connection_to()).find_links()
         file_name = category + '.csv'
+
         try:
             scrap = check_files(file_name, links_of_site)
 
