@@ -8,7 +8,7 @@ import csv
 
 from bs4 import BeautifulSoup
 
-from typing import List, Callable
+from typing import List
 
 
 class Connection:
@@ -44,14 +44,13 @@ def check_files(file: str, links: List) -> None:
         reader = csv.reader(csv_file, delimiter=',')
         new_links = []
         for row in reader:
-            visited = True
+            visited = False
             for link in links:
-                if row == link:
-                    visited = False
+                if row[0] == link.text:
+                    visited = True
             if not visited:
                 new_links.append(link)
         write_new_links(file, new_links)
-
 
 
 if __name__ == '__main__':
