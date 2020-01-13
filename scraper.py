@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
     My implementation of web-scraper from site 'http://kamil.kwapisz.pl/category/'
 """
