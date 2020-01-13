@@ -10,9 +10,9 @@ A simple program that downloads links from a site and saves them to csv files.
     <li>chardet==3.0.4</li>
     <li>idna==2.8</li>
     <li>lxml==4.4.2</li>
-    <li>lxml==4.4.2</li>
     <li>requests==2.22.0</li>
     <li>soupsieve==1.9.5</li>
+    <li>urllib3==1.25.7</li>
 </ul>
 
 
